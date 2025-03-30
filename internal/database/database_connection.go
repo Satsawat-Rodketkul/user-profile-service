@@ -9,6 +9,8 @@ import (
 	"gorm.io/gorm"
 )
 
+var DB *gorm.DB
+
 func DBconnection() {
 	dbHost := config.GetValue("DATABASE_HOST")
 	dbPort := config.GetValue("DATABASE_PORT")
@@ -19,10 +21,10 @@ func DBconnection() {
 	dsn := fmt.Sprintf("host=%s port=%s user=%s password=%s dbname=%s", dbHost, dbPort, dbUser, dbPassword, dbName)
 
 	db, err := gorm.Open(postgres.Open(dsn))
-
 	if err != nil {
 		log.Fatal("Failed to connect database:", err)
 	}
 
-	log.Print("Connect to database success:", db)
+	DB = db
+	log.Print("Connect to database success")
 }
