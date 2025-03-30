@@ -1,0 +1,25 @@
+.DS_Store    # macOS Finder metadata
+Thumbs.db    # Windows thumbnail cache
+
+# Go build artifacts
+*.exe
+*.out
+*.test
+
+# Go dependency directories
+vendor/
+bin/
+
+.vscode/
+.idea/
+*.swp
+
+.env
+.env.local
+config/*.json  # Example: API keys in config files
+
+*.log
+*.tmp
+
+*.db
+*.sqlite
