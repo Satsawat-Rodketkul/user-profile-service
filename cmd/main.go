@@ -18,7 +18,7 @@ func main() {
 	app := fiber.New()
 
 	app.Post("/signup", func(c *fiber.Ctx) error {
-		request := models.UsersignupRequest{}
+		request := models.UserSignupRequest{}
 		err := c.BodyParser(&request)
 		if err != nil {
 			return err
@@ -32,11 +32,34 @@ func main() {
 			CreateDate:   time.Now(),
 			UpdateDate:   time.Now(),
 		}
-		result := repositoies.Usersignup(&userProfile)
+		result := repositoies.UserSignup(&userProfile)
 		if result != nil {
 			return c.Status(fiber.StatusInternalServerError).JSON("error")
 		}
+
 		return c.Status(fiber.StatusCreated).JSON("success")
+	})
+
+	app.Post("/signin", func(c *fiber.Ctx) error {
+		request := models.UserSigninRequest{}
+		err := c.BodyParser(&request)
+		if err != nil {
+			return err
+		}
+		result, err := repositoies.UserSingin(request.Username, request.Password)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(err)
+		}
+
+		token, err := utils.GenerateJWT(result.UserId)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(err)
+		}
+
+		return c.Status(fiber.StatusFound).JSON(
+			models.UserSigninResponse{
+				Token: token,
+			})
 	})
 
 	app.Listen(":8080")
