@@ -62,5 +62,23 @@ func main() {
 			})
 	})
 
+	app.Get("/user/profile", func(c *fiber.Ctx) error {
+		userId := ""
+
+		//Get redis before
+
+		result, err := repositoies.UserProfileGet(userId)
+		if err != nil {
+			return c.Status(fiber.StatusInternalServerError).JSON(err)
+		}
+
+		return c.Status(fiber.StatusFound).JSON(
+			models.UserProfileResponse{
+				Username:     result.Username,
+				Email:        result.Email,
+				MobileNumber: result.MobileNumber,
+			})
+	})
+
 	app.Listen(":8080")
 }
