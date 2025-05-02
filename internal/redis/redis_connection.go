@@ -1,9 +1,19 @@
 package redis
 
-import "github.com/go-redis/redis/v8"
+import (
+	"log"
 
-var redis *redis.Client
+	"github.com/go-redis/redis/v8"
+)
 
-func RedisConnection()
+var Redis *redis.Client
 
+func RedisConnection() {
+	redis := redis.NewClient(&redis.Options{
+		Addr:     "localhost:6379",
+		Password: "",
+	})
+
+	Redis = redis
+	log.Print("Connect redis success")
 }
