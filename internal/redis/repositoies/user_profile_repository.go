@@ -9,9 +9,9 @@ import (
 	"user-profile-service/internal/redis/model"
 )
 
-func UserProfileGet(userId string) (model.UserProfile, error) {
+func UserProfileGet(userId string) (*model.UserProfile, error) {
 	redisKey := fmt.Sprintf("USER:PROFILE:%s", userId)
-	userProfile := model.UserProfile{}
+	userProfile := &model.UserProfile{}
 
 	result, err := redis.Redis.Get(context.Background(), redisKey).Result()
 	if err != nil {

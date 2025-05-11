@@ -18,8 +18,8 @@ func UserSignup(userProfile *entities.UserProfile) error {
 	return tx.Error
 }
 
-func UserSingin(username string, password string) (entities.UserProfile, error) {
-	userProfile := entities.UserProfile{}
+func UserSingin(username string, password string) (*entities.UserProfile, error) {
+	userProfile := &entities.UserProfile{}
 	tx := database.DB.Where("username = ? AND password = ?", username, password).Find(&userProfile)
 	if tx.Error != nil {
 		log.Println("Error query user info:", tx.Error)
@@ -33,8 +33,8 @@ func UserSingin(username string, password string) (entities.UserProfile, error) 
 	return userProfile, tx.Error
 }
 
-func UserProfileGet(userId string) (entities.UserProfile, error) {
-	userProfile := entities.UserProfile{}
+func UserProfileGet(userId string) (*entities.UserProfile, error) {
+	userProfile := &entities.UserProfile{}
 	tx := database.DB.Where("user_id = ?", userId).Find(&userProfile)
 	if tx.Error != nil {
 		log.Println("Error query user info:", tx.Error)
