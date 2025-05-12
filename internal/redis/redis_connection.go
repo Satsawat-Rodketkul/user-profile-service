@@ -1,7 +1,9 @@
 package redis
 
 import (
+	"fmt"
 	"log"
+	"user-profile-service/internal/config"
 
 	"github.com/go-redis/redis/v8"
 )
@@ -9,9 +11,13 @@ import (
 var Redis *redis.Client
 
 func RedisConnection() {
+	redisHost := config.GetValue("REDIS_HOST")
+	redisPort := config.GetValue("REDIS_PORT")
+
+	dsn := fmt.Sprintf("%v:%v", redisHost, redisPort)
+
 	redis := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "",
+		Addr: dsn,
 	})
 
 	Redis = redis
